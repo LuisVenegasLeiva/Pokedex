@@ -1,6 +1,6 @@
 .container{
-    background-color: rgb(218, 76, 76);
-    padding: 15px;
+    background-color: rgb(211, 64, 64);
+    padding: 20px;
     display: flex;
 }
 
@@ -8,7 +8,7 @@
 .container .list{
     border: 2px solid rgb(172, 166, 166);
     border-radius: 5px;
-    width: 35%;
+    width: 40%;
     overflow: scroll;
 
     color: white;
@@ -38,7 +38,7 @@
 
 .container .pokemon .pokemonInfo .infoData{
     border: 1px solid rgb(192, 180, 17);
-    padding: 70px 120px;
+    padding: 70px 100px;
     width: 50%;
     text-transform: capitalize;
 }
@@ -69,4 +69,10 @@ a.fill-div {
 .pokemonIconBig{
     width:250px;
     height:250px;
+}
+
+.stickyNumber{
+    position: absolute;
+    right: 40px;
+    top: 0px;
 }

@@ -43,7 +43,7 @@ async function printPokemons(){
             <li onclick=loadPokemonData('${pokemon.name}','${imgDefault}',${height},${weight},'${species}',abilities) id=${data.id}>
                 <img class="pokemonIcon" src=${img}>
                 ${pokemon.name}
-                #${data.id}
+                <p class="stickyNumber">#${data.id}</p>
             </li>`;
         });
 

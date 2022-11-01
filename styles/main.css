@@ -18,10 +18,7 @@ h2,
 h3,
 h4,
 h5{
-
 }
-
-
 
 
 ul {
@@ -31,17 +28,19 @@ ul {
 }
 
 li {
-  background-color: rgb(112, 22, 22);
+  background-color: rgb(99, 7, 7);
   position: relative;
-  padding-left: 30px;
-  padding-right: 30px;
-  height: 50px;
+  height: 80px;
   line-height: 50px;
   margin-bottom: 1px;
+  display: flex;
 
   cursor: pointer;
   user-select: none;
   text-transform: capitalize;
+  align-content: center;
+  text-align: left;
+  padding: 18px 60px;
 
 }
 
