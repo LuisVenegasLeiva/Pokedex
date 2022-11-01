@@ -73,12 +73,16 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
                 }
                 return (" "+eggGroup.name)
             }).join(" ")
-        }</p>
+        }
+        </p>
+
+        
         <p><b>Abilities:</b> ${
             abilities.map(ability => {
                 return (" "+ability.ability.name)
             })
-        } </p>
+        }
+        </p>
     `;
     getEvolutionChain(id);
 }
@@ -163,6 +167,7 @@ async function loadNext(){
 let loading=false;
 let pokemonList = document.getElementById('list');
 
+//Add the action listener and allows the user to load more pokemon each 0.5 seconds to have a better control of the new fetchs.
 function initScroll(){
     pokemonList.addEventListener('scroll',()=>{
     if (loading==false){
