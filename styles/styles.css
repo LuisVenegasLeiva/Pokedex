@@ -1,0 +1,72 @@
+.container{
+    background-color: rgb(218, 76, 76);
+    padding: 15px;
+    display: flex;
+}
+
+
+.container .list{
+    border: 2px solid rgb(172, 166, 166);
+    border-radius: 5px;
+    width: 35%;
+    overflow: scroll;
+
+    color: white;
+}
+
+.container .pokemon{
+    border-radius: 5px;
+    background-color: aliceblue;
+    width: 100%;
+    margin-left: 15px;
+}
+
+.container .pokemon .pokemonInfo{
+    border: 1px solid green;
+    padding: 50px;
+    display: flex;
+}
+
+.container .pokemon .pokemonInfo .infoImage{
+    border: 1px solid green;
+    padding: 30px;
+    width: 50%;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+
+.container .pokemon .pokemonInfo .infoData{
+    border: 1px solid rgb(192, 180, 17);
+    padding: 70px 120px;
+    width: 50%;
+    text-transform: capitalize;
+}
+
+.container .pokemon .pokemonEvolution{
+    border: 1px solid rgb(97, 44, 196);
+    text-align: center;
+}
+
+#my-div {
+    background-color: rgb(73, 140, 160);
+    width: 200px;
+    height: 20px;
+}
+
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+.pokemonIcon{
+    width:30px;
+    height:30px;
+}
+
+.pokemonIconBig{
+    width:250px;
+    height:250px;
+}

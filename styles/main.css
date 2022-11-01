@@ -1,3 +1,4 @@
+@import "./styles.css";
 html {
   height: 100%;
   box-sizing: border-box;
@@ -16,4 +17,47 @@ h1,
 h2,
 h3,
 h4,
-h5
+h5{
+
+}
+
+
+
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  background-color: rgb(112, 22, 22);
+  position: relative;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 1px;
+
+  cursor: pointer;
+  user-select: none;
+  text-transform: capitalize;
+
+}
+
+li:before {
+  position: absolute;
+  content: "";
+  left: 4px;
+  top: 50%;
+  margin-top: -10px;
+}
+
+li:hover {  
+  background-color: #8d1919;
+}
+
+li:active {
+  background: #5f1212;
+  box-shadow: inset 0 1px 1px #666;
+}
