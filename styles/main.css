@@ -27,3 +27,25 @@ h5{
   padding: 20px;
   display: flex;
 }
+
+.list::-webkit-scrollbar {
+  color: black;
+  width: 15px;
+  height: 30px;
+  overflow-y: scroll;
+  scrollbar-color: rgb(83, 20, 146) green;
+  scrollbar-width: thin;
+  border-radius: 50px;
+}
+
+/* Track */
+.list::-webkit-scrollbar-track {
+  background: rgb(133, 43, 43);
+  border-radius: 50px;
+}
+
+/* Handle */
+.list::-webkit-scrollbar-thumb {
+  background: rgb(211, 64, 64);
+  border-radius: 50px;
+}

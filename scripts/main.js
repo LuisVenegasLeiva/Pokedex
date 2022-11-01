@@ -37,11 +37,11 @@ async function getEggGroups(id){
     .then((response) => response.json())
     .then((data) => {return data.egg_groups});
 
-    let printAddress = async () => {
+    let groups = async () => {
         const a = await eggGroups;
         return a
     };
-    return printAddress();
+    return groups();
 }
 
 /*
@@ -49,7 +49,6 @@ This function display all the needed information of the selected pokemon
  */
 async function loadPokemonData(id,name,img,height,weight,species,abilities,types){
     let eggGroups= await getEggGroups(id);
-    console.log(eggGroups);
 
     const infoImage = document.getElementById('infoImage');
     infoImage.innerHTML=`
@@ -141,16 +140,36 @@ async function printPokemons(){
     })   
 }
 
-async function fetchData(){
-    await fetch('https://pokeapi.co/api/v2/pokemon/')
+async function fetchData(url){
+    await fetch(url)
     .then((response) => response.json())
-    .then((data) => {pokemonsData=data.results;})
+    .then((data) => {pokemonsData=data.results; console.log(data.next);})
     .then(() => printPokemons());
 };
 
-
+let range=0;
 async function start(){
-    await fetchData();
+    await fetchData(`https://pokeapi.co/api/v2/pokemon/?offset=${range}&limit=20`).then(range+=20);
+}
+
+async function loadNext(){
+    await start();
 }
 
 start();
+
+function getHight(){
+    let pokemonList1 = document.getElementById('list');
+    return pokemonList1.offsetHeight*(range/20)
+}
+
+
+let pokemonList = document.getElementById('list');
+pokemonList.addEventListener('scroll',()=>{
+    //console.log(pokemonList.scrollTop) //scrolled from top
+    //console.log(pokemonList.offsetHeight) //visible part of screen
+    console.log(getHight());
+    if(pokemonList.scrollTop  >= getHight()-15){
+        loadNext();
+    }
+})
