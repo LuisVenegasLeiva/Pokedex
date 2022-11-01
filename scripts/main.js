@@ -157,19 +157,20 @@ async function loadNext(){
 }
 
 start();
-
-function getHight(){
-    let pokemonList1 = document.getElementById('list');
-    return pokemonList1.offsetHeight*(range/20)
-}
-
-
+let loading=false;
 let pokemonList = document.getElementById('list');
 pokemonList.addEventListener('scroll',()=>{
-    //console.log(pokemonList.scrollTop) //scrolled from top
-    //console.log(pokemonList.offsetHeight) //visible part of screen
-    console.log(getHight());
-    if(pokemonList.scrollTop  >= getHight()-15){
-        loadNext();
+    if (loading==false){
+        //console.log(pokemonList.scrollTop);
+        //console.log(pokemonList.scrollHeight);
+        //console.log(pokemonList.offsetHeight);
+        if (pokemonList.scrollTop > pokemonList.scrollHeight-1000 ){
+            loading=true;
+            setTimeout(() => {
+                loadNext();
+                loading=false;
+            }, 500);
+        }
     }
 })
+ 
