@@ -10,22 +10,47 @@ function loadPokemonEvolution(evolutions){
         </div> 
 
         <div class="divEvolution">
-        ${evolutions.map(pokemon => {
+        ${evolutions.map((pokemon,index) => {
+            if (index==evolutions.length-1){
+                return (`
+                <div class="pokemon">
+                    <img class="pokemonIconEv" src="${pokemonImgs[pokemon]}" >
+                    <h3>${pokemon}</h3>
+                </div>
+                `)
+            }
             return (`
             <div class="pokemon">
-                <img class="pokemonIconBig" src="${pokemonImgs[pokemon]}" >
+                <img class="pokemonIconEv" src="${pokemonImgs[pokemon]}" >
                 <h3>${pokemon}</h3>
-            </div>   
+            </div>
+            <span class="arrowImg">&#8594;</span>
             `)
+            
         }).join('')}
         </div>  
     `;
 }
 
+async function getEggGroups(id){
+    let eggGroups = fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
+    .then((response) => response.json())
+    .then((data) => {return data.egg_groups});
+
+    let printAddress = async () => {
+        const a = await eggGroups;
+        return a
+    };
+    return printAddress();
+}
+
 /*
 This function display all the needed information of the selected pokemon 
  */
-function loadPokemonData(id,name,img,height,weight,species,abilities,types){
+async function loadPokemonData(id,name,img,height,weight,species,abilities,types){
+    let eggGroups= await getEggGroups(id);
+    console.log(eggGroups);
+
     const infoImage = document.getElementById('infoImage');
     infoImage.innerHTML=`
         <img class="pokemonIconBig" src="${img}" >
@@ -42,7 +67,14 @@ function loadPokemonData(id,name,img,height,weight,species,abilities,types){
         <p><b>Weight:</b> ${weight}</p>
         <p><b>Height:</b> ${height} </p>
         <p><b>Species:</b> ${species} </p>
-        <p><b>Egg Groups:</b> </p>
+        <p><b>Egg Groups:</b> ${
+            eggGroups.map((eggGroup,index) => {
+                if (index == eggGroups.length-1 && index>0){
+                    return (" and "+eggGroup.name)
+                }
+                return (" "+eggGroup.name)
+            }).join(" ")
+        }</p>
         <p><b>Abilities:</b> ${
             abilities.map(ability => {
                 return (" "+ability.ability.name)
@@ -55,26 +87,20 @@ function loadPokemonData(id,name,img,height,weight,species,abilities,types){
 
 async function fetchEvolutionChain(url,id){
     let evolutions=[]
-    if(evolutions[id] == undefined){
-        await fetch(url)
-        .then((response) => response.json())
-        .then((data) => data.chain)
-        .then((evolution) => {
-            evolutions.push(evolution.species.name);
-            console.log(evolution);
-            try{
-                evolutions.push(evolution.evolves_to[0].species.name);
-                evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
-            }catch{
+    await fetch(url)
+    .then((response) => response.json())
+    .then((data) => data.chain)
+    .then((evolution) => {
+        evolutions.push(evolution.species.name);
+        console.log(evolution);
+        try{
+            evolutions.push(evolution.evolves_to[0].species.name);
+            evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
+        }catch{
 
-            }
-        })
-/*         console.log("Print");
-         Object.keys(evolutions).forEach(function(key, index) {
-            console.log(key, evolutions[key]);
-        });  */
-        loadPokemonEvolution(evolutions);
-    }
+        }
+    })
+    loadPokemonEvolution(evolutions);
 }
 
 async function getEvolutionChain(id){
@@ -88,7 +114,7 @@ async function getEvolutionChain(id){
 async function printPokemons(){
     let pokemonList = document.getElementById('pokemonList');
 
-    pokemonsData.map(pokemon => {
+    await pokemonsData.map(pokemon => {
         fetch(pokemon.url)
         .then((response) => response.json())
         .then((data) => {
@@ -101,7 +127,6 @@ async function printPokemons(){
             let types=data.types;
 
             pokemonImgs[pokemon.name]=imgDefault;
-            console.log(data);
 
             let row=document.createElement('li');
             row.addEventListener('click', () => loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types));

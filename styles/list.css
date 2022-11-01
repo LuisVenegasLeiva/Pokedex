@@ -1,0 +1,61 @@
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+li {
+    background-color: rgb(99, 7, 7);
+    position: relative;
+    height: 90px;
+    line-height: 50px;
+    margin-bottom: 1px;
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    text-transform: capitalize;
+    align-content: center;
+    text-align: left;
+    padding: 18px 60px;
+  
+}
+  
+li:before {
+    position: absolute;
+    content: "";
+    left: 4px;
+    top: 50%;
+    margin-top: -10px;
+}
+  
+li:hover {  
+    background-color: #8d1919;
+}
+  
+li:active {
+    background: #5f1212;
+    box-shadow: inset 0 1px 1px #666;
+}
+
+.container .list{
+    border: 3px solid rgb(170, 134, 134);
+    border-radius: 10px;
+    width: 45%;
+    overflow: scroll;
+
+    color: white;
+}
+
+.stickyNumber{
+    position: absolute;
+    right: 40px;
+    top: 0px;
+}
+
+.pokemonIcon{
+    width:30px;
+    height:30px;
+    position: relative;
+    left: -4px;
+    top: 12px;
+}
