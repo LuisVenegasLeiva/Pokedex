@@ -1,7 +1,31 @@
 let pokemonsData={}
+let pokemonImgs={}
 let pokemons={}
 
-function loadPokemonData(name,img,height,weight,species,abilities,types){
+function loadPokemonEvolution(evolutions){
+    const pokemonEvolution = document.getElementById('pokemonEvolution');
+    pokemonEvolution.innerHTML=`
+        <div class="title">
+            <h3>Evolution Chart</h3>
+        </div> 
+
+        <div class="divEvolution">
+        ${evolutions.map(pokemon => {
+            return (`
+            <div class="pokemon">
+                <img class="pokemonIconBig" src="${pokemonImgs[pokemon]}" >
+                <h3>${pokemon}</h3>
+            </div>   
+            `)
+        }).join('')}
+        </div>  
+    `;
+}
+
+/*
+This function display all the needed information of the selected pokemon 
+ */
+function loadPokemonData(id,name,img,height,weight,species,abilities,types){
     const infoImage = document.getElementById('infoImage');
     infoImage.innerHTML=`
         <img class="pokemonIconBig" src="${img}" >
@@ -25,33 +49,33 @@ function loadPokemonData(name,img,height,weight,species,abilities,types){
             })
         } </p>
     `;
+
+    getEvolutionChain(id);
 }
 
-let evolutions={}
 async function fetchEvolutionChain(url,id){
-    if(evolutions[id] === undefined){
+    let evolutions=[]
+    if(evolutions[id] == undefined){
         await fetch(url)
         .then((response) => response.json())
         .then((data) => data.chain)
         .then((evolution) => {
-            evolutions[id]=[evolution.species.name];
+            evolutions.push(evolution.species.name);
+            console.log(evolution);
             try{
-                evolutions[id].push(evolution.evolves_to[0].species.name);
-                evolutions[id].push(evolution.evolves_to[0].evolves_to[0].species.name);
+                evolutions.push(evolution.evolves_to[0].species.name);
+                evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
             }catch{
 
             }
-
-
         })
-        Object.keys(evolutions).forEach(function(key, index) {
+/*         console.log("Print");
+         Object.keys(evolutions).forEach(function(key, index) {
             console.log(key, evolutions[key]);
-          });
-
-
+        });  */
+        loadPokemonEvolution(evolutions);
     }
 }
-
 
 async function getEvolutionChain(id){
     await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
@@ -59,9 +83,6 @@ async function getEvolutionChain(id){
         .then((data) => data.evolution_chain.url)
         .then((url) => fetchEvolutionChain(url,id))
 
-
-    const evolution = document.getElementById('pokemonEvolution');
-    evolution.innerHTML="hola";  
 }
 
 async function printPokemons(){
@@ -79,10 +100,11 @@ async function printPokemons(){
             let imgDefault=data.sprites.other["official-artwork"].front_default;
             let types=data.types;
 
+            pokemonImgs[pokemon.name]=imgDefault;
             console.log(data);
 
             let row=document.createElement('li');
-            row.addEventListener('click', () => loadPokemonData(pokemon.name,imgDefault,height,weight,species,abilities,types));
+            row.addEventListener('click', () => loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types));
             row.innerHTML=`                
                 <img class="pokemonIcon" src=${img}>
                 ${pokemon.name}
@@ -90,7 +112,6 @@ async function printPokemons(){
             `;
             pokemonList.append(row);
 
-            getEvolutionChain(data.id);
         });
     })   
 }

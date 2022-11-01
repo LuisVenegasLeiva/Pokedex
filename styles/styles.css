@@ -1,4 +1,5 @@
 .container{
+    max-height: 1080px;
     background-color: rgb(211, 64, 64);
     padding: 20px;
     display: flex;
@@ -45,7 +46,7 @@
     border-radius: 5px;
     width: 130px;
     padding: 4px;
-    margin: 0px 10px;
+    margin: auto;
 }
 
 
@@ -55,9 +56,21 @@
     text-transform: capitalize;
 }
 
-.container .pokemon .pokemonEvolution{
-    border: 1px solid rgb(97, 44, 196);
+.container .pokemon .pokemonEvolution .title{
+    text-align: center
+}
+
+.container .pokemon .pokemonEvolution .divEvolution{
+    align-items: center;
+    display: flex;
+    border: 1px solid rgb(19, 161, 161);
     text-align: center;
+}
+
+.container .pokemon .pokemonEvolution .divEvolution .pokemon{
+    border: 1px solid rgb(97, 44, 196);
+    width: fit-content;
+    margin: auto;
 }
 
 #my-div {
