@@ -6,8 +6,8 @@
 
 
 .container .list{
-    border: 2px solid rgb(172, 166, 166);
-    border-radius: 5px;
+    border: 3px solid rgb(170, 134, 134);
+    border-radius: 10px;
     width: 40%;
     overflow: scroll;
 
@@ -22,22 +22,34 @@
 }
 
 .container .pokemon .pokemonInfo{
-    border: 1px solid green;
     padding: 50px;
     display: flex;
 }
 
 .container .pokemon .pokemonInfo .infoImage{
-    border: 1px solid green;
     padding: 30px;
     width: 50%;
     text-align: center;
     text-transform: capitalize;
 }
 
+.container .pokemon .pokemonInfo .infoImage .types{
+    display: flex;
+    padding: 30px;
+    align-content: center;
+    align-items: center;
+}
+
+.container .pokemon .pokemonInfo .infoImage .types .type{
+    background-color: rgba(233, 126, 158, 0.219);
+    border-radius: 5px;
+    width: 130px;
+    padding: 4px;
+    margin: 0px 10px;
+}
+
 
 .container .pokemon .pokemonInfo .infoData{
-    border: 1px solid rgb(192, 180, 17);
     padding: 70px 100px;
     width: 50%;
     text-transform: capitalize;
@@ -64,6 +76,9 @@ a.fill-div {
 .pokemonIcon{
     width:30px;
     height:30px;
+    position: relative;
+    left: -4px;
+    top: 12px;
 }
 
 .pokemonIconBig{
@@ -75,4 +90,11 @@ a.fill-div {
     position: absolute;
     right: 40px;
     top: 0px;
+}
+
+.divider{
+    background-color: red;
+    width: 90%;
+    height: 2px;
+    margin: 5px auto;
 }
