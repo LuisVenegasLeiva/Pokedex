@@ -21,6 +21,7 @@ h4,
 h5{
 }
 
+/* Container props */
 .container{
   max-height: 960px;
   background-color: rgb(211, 64, 64);
@@ -28,9 +29,10 @@ h5{
   display: flex;
 }
 
+/* Scrollbar format */
 .list::-webkit-scrollbar {
   color: black;
-  width: 15px;
+  width: 20px;
   height: 30px;
   overflow-y: scroll;
   scrollbar-color: rgb(83, 20, 146) green;

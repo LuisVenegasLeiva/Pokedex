@@ -76,7 +76,7 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
         }
         </p>
 
-        
+
         <p><b>Abilities:</b> ${
             abilities.map(ability => {
                 return (" "+ability.ability.name)
@@ -100,7 +100,7 @@ async function fetchEvolutionChain(url,id){
             evolutions.push(evolution.evolves_to[0].species.name);
             evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
         }catch{
-
+            //Nothing happens
         }
     })
     loadPokemonEvolution(evolutions);
@@ -181,9 +181,23 @@ function initScroll(){
     }
 })
 }
-initScroll();
 
+function setInicialTitle(){
+    const infoImage = document.getElementById('infoImage');
+    infoImage.innerHTML=`
+        <img src="./media/poke.png" >
+    `;
+
+    const infoData = document.getElementById('infoData');
+    infoData.innerHTML=`
+        <h1>Pokedex</h1>
+        <h2>Luis Venegas</h2>
+
+    `;
+}
 
 //Init program
 loadNext();
+initScroll();
+setInicialTitle();
  

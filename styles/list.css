@@ -1,3 +1,4 @@
+/* All the styling for the pokemon list */
 ul {
     padding: 0;
     margin: 0;
@@ -34,6 +35,11 @@ li:hover {
   
 li:active {
     background: #5f1212;
+    box-shadow: inset 0 1px 1px #666;
+}
+
+li:focus{
+    background: #3b1677;
     box-shadow: inset 0 1px 1px #666;
 }
 
