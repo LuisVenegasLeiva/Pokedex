@@ -2,13 +2,13 @@ let pokemonsData={}
 let pokemonImgs={}
 let pokemons={}
 
+/* This funcion displays the evolution chain for a selected pokemon */
 function loadPokemonEvolution(evolutions){
     const pokemonEvolution = document.getElementById('pokemonEvolution');
     pokemonEvolution.innerHTML=`
         <div class="title">
             <h3>Evolution Chart</h3>
         </div> 
-
         <div class="divEvolution">
         ${evolutions.map((pokemon,index) => {
             if (index==evolutions.length-1){
@@ -32,6 +32,7 @@ function loadPokemonEvolution(evolutions){
     `;
 }
 
+//Function that fetch the egg groups for a selected pokemon
 async function getEggGroups(id){
     let eggGroups = fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
     .then((response) => response.json())
@@ -45,7 +46,7 @@ async function getEggGroups(id){
 }
 
 /*
-This function display all the needed information of the selected pokemon 
+This function display all the needed information of the selected pokemon, including data and html design
  */
 async function loadPokemonData(id,name,img,height,weight,species,abilities,types){
     let eggGroups= await getEggGroups(id);
@@ -59,7 +60,6 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
             return (`<div class="type">${type.type.name}</div>`)
         }).join('')}
     `;
-
     const infoData = document.getElementById('infoData');
     infoData.innerHTML=`
         <h3>Information </h3>
@@ -80,10 +80,10 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
             })
         } </p>
     `;
-
     getEvolutionChain(id);
 }
 
+//Gets the pokemons of the evolution chain
 async function fetchEvolutionChain(url,id){
     let evolutions=[]
     await fetch(url)
@@ -102,6 +102,7 @@ async function fetchEvolutionChain(url,id){
     loadPokemonEvolution(evolutions);
 }
 
+//Get The evolution chain for a selected pokemon
 async function getEvolutionChain(id){
     await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
         .then((response) => response.json())
@@ -110,6 +111,7 @@ async function getEvolutionChain(id){
 
 }
 
+//Add the new pokemons to the list
 async function printPokemons(){
     let pokemonList = document.getElementById('pokemonList');
 
@@ -140,6 +142,7 @@ async function printPokemons(){
     })   
 }
 
+//Fetch all the pokemon data from the url
 async function fetchData(url){
     await fetch(url)
     .then((response) => response.json())
@@ -147,23 +150,22 @@ async function fetchData(url){
     .then(() => printPokemons());
 };
 
+
+//This funcion runs when the user open the web page and when is needed to load more elements with the infinite scroll
 let range=0;
-async function start(){
+async function loadNext(){
     await fetchData(`https://pokeapi.co/api/v2/pokemon/?offset=${range}&limit=20`).then(range+=20);
 }
 
-async function loadNext(){
-    await start();
-}
 
-start();
+
+/* All the infinite scroll code */
 let loading=false;
 let pokemonList = document.getElementById('list');
-pokemonList.addEventListener('scroll',()=>{
+
+function initScroll(){
+    pokemonList.addEventListener('scroll',()=>{
     if (loading==false){
-        //console.log(pokemonList.scrollTop);
-        //console.log(pokemonList.scrollHeight);
-        //console.log(pokemonList.offsetHeight);
         if (pokemonList.scrollTop > pokemonList.scrollHeight-1000 ){
             loading=true;
             setTimeout(() => {
@@ -173,4 +175,10 @@ pokemonList.addEventListener('scroll',()=>{
         }
     }
 })
+}
+initScroll();
+
+
+//Init program
+loadNext();
  
