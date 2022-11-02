@@ -46,7 +46,7 @@ li:focus{
 .container .list{
     border: 3px solid rgb(170, 134, 134);
     border-radius: 10px;
-    width: 45%;
+    width: 35%;
     overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;

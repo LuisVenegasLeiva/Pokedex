@@ -2,7 +2,7 @@
 .container .pokemon{
     border-radius: 5px;
     background-color: aliceblue;
-    width: 100%;
+    width: 65%;
     margin-left: 15px;
 }
 
@@ -13,30 +13,28 @@
 
 .container .pokemon .pokemonInfo .infoImage{
     padding: 30px;
-    width: 50%;
+    width: 60%;
     text-align: center;
     text-transform: capitalize;
 }
 
 .container .pokemon .pokemonInfo .infoImage .types{
     display: flex;
-    padding: 30px;
     align-content: center;
     align-items: center;
 }
 
 .container .pokemon .pokemonInfo .infoImage .types .type{
+    font-size: 18px;
     background-color: rgba(233, 126, 158, 0.219);
     border-radius: 5px;
-    width: 130px;
-    padding: 4px;
+    width: 120px;
     margin: auto;
 }
 
-
 .container .pokemon .pokemonInfo .infoData{
-    padding: 70px 100px;
-    width: 50%;
+    padding: 70px 0px 70px 100px;
+    width: 800px;
     text-transform: capitalize;
 }
 
@@ -53,7 +51,6 @@
 
 .container .pokemon .pokemonEvolution .divEvolution .pokemon{
     text-transform: capitalize;
-    width: fit-content;
     margin: auto;
 }
 
@@ -86,10 +83,9 @@
     color: #6b0f0f;
 }
 
-
 .searchBox{
-    position: relative;
-    float: right;
+    position: absolute;
+    right: 10px;
     margin: 10px 30px;
     background-color: rgba(233, 126, 158, 0.219);
     border-radius: 5px;

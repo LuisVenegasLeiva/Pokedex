@@ -1,31 +1,58 @@
 let pokemonsData={}
+let pokemonsSearch={}
 let pokemonImgs={}
-let pokemons={}
+
+//Function used to get images individualy to avoid unnecesary loads in pokemon chain evolution
+async function getPokemonImage(url){
+    let promise = fetch(url)
+    .then((response) => response.json())
+    .then((data) => {return data.id});
+
+    let urlGet =  async () => {
+        const a = await promise;
+        return a
+    };
+    result=await urlGet()
+    return result;
+}
 
 /* This funcion displays the evolution chain for a selected pokemon */
-function loadPokemonEvolution(evolutions){
+async function loadPokemonEvolution(evolutions){
     const pokemonEvolution = document.getElementById('pokemonEvolution');
+
+    let evolutionsIds=[]
+    try{
+        evolutionsIds.push(await getPokemonImage(evolutions[0][1]))
+        evolutionsIds.push(await getPokemonImage(evolutions[1][1]))
+        evolutionsIds.push(await getPokemonImage(evolutions[2][1]))
+    }
+    catch{
+    }
+
     pokemonEvolution.innerHTML=`
         <div class="title">
             <h3>Evolution Chart</h3>
         </div> 
         <div class="divEvolution">
-        ${evolutions.map((pokemon,index) => {
+        
+        ${await evolutions.map((pokemon,index) => {
             if (index==evolutions.length-1){
+                //console.log(pokemon);
                 return (`
                 <div class="pokemon">
-                    <img class="pokemonIconEv" src="${pokemonImgs[pokemon]}" >
-                    <h3>${pokemon}</h3>
+                    <img class="pokemonIconEv" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolutionsIds[index]}.png" >
+                    <h3>${pokemon[0]}</h3>
                 </div>
                 `)
             }
             return (`
             <div class="pokemon">
-                <img class="pokemonIconEv" src="${pokemonImgs[pokemon]}" >
-                <h3>${pokemon}</h3>
+                <img class="pokemonIconEv" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolutionsIds[index]}.png" >
+                <h3>${pokemon[0]}</h3>
             </div>
             <span class="arrowImg">&#8594;</span>
             `)
+
             
         }).join('')}
         </div>  
@@ -34,15 +61,20 @@ function loadPokemonEvolution(evolutions){
 
 //Function that fetch the egg groups for a selected pokemon
 async function getEggGroups(id){
-    let eggGroups = fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
-    .then((response) => response.json())
-    .then((data) => {return data.egg_groups});
-
-    let groups = async () => {
-        const a = await eggGroups;
-        return a
-    };
-    return groups();
+    try{
+        let eggGroups = fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
+        .then((response) => response.json())
+        .then((data) => {return data.egg_groups});
+    
+        let groups = async () => {
+            const a = await eggGroups;
+            return a
+        };
+        return groups();
+    }
+    catch{
+        return []
+    }
 }
 
 /*
@@ -60,6 +92,7 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
             return (`<div class="type">${type.type.name}</div>`)
         }).join('')}
     `;
+    ///////////////////////////////////////////////////////////////////////////
     const infoData = document.getElementById('infoData');
     infoData.innerHTML=`
         <h3>Information </h3>
@@ -75,8 +108,7 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
             }).join(" ")
         }
         </p>
-
-
+        
         <p><b>Abilities:</b> ${
             abilities.map(ability => {
                 return (" "+ability.ability.name)
@@ -89,20 +121,22 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
 
 //Gets the pokemons of the evolution chain
 async function fetchEvolutionChain(url,id){
+    console.log(url);
     let evolutions=[]
     await fetch(url)
     .then((response) => response.json())
     .then((data) => data.chain)
     .then((evolution) => {
-        evolutions.push(evolution.species.name);
+        evolutions.push([evolution.species.name,evolution.species.url]);
         //console.log(evolution);
         try{
-            evolutions.push(evolution.evolves_to[0].species.name);
-            evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
+            evolutions.push([evolution.evolves_to[0].species.name,evolution.evolves_to[0].species.url]);
+            evolutions.push([evolution.evolves_to[0].evolves_to[0].species.name,evolution.evolves_to[0].evolves_to[0].species.url]);
         }catch{
             //Nothing happens
         }
     })
+    /* Aqui se debe solucionar */
     loadPokemonEvolution(evolutions);
 }
 
@@ -116,10 +150,10 @@ async function getEvolutionChain(id){
 }
 
 //Add the new pokemons to the list
-async function printPokemons(){
+async function printPokemons(list){
     let pokemonList = document.getElementById('pokemonList');
 
-    await pokemonsData.map(pokemon => {
+    await list.map(pokemon => {
         fetch(pokemon.url)
         .then((response) => response.json())
         .then((data) => {
@@ -156,17 +190,20 @@ async function printPokemons(){
 async function fetchData(url){
     await fetch(url)
     .then((response) => response.json())
-    .then((data) => {pokemonsData=data.results; console.log(data.next);})
-    .then(() => printPokemons());
+    .then((data) => {pokemonsSearch=data.results; urlData=data.next;})
+    .then(() => printPokemons(pokemonsSearch));
 };
 
 
 //This funcion runs when the user open the web page and when is needed to load more elements with the infinite scroll
 let range=0;
+let limit=900; //This limit variable exists a lot of pokemon data after this number is incomplete
+let urlData= `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20`
 async function loadNext(){
-    await fetchData(`https://pokeapi.co/api/v2/pokemon/?offset=${range}&limit=20`).then(range+=20);
+    if (range<limit){
+        await fetchData(urlData).then(range+=20);
+    }
 }
-
 
 
 /* All the infinite scroll code */
@@ -188,6 +225,7 @@ function initScroll(){
 })
 }
 
+//Clear actual pokemon information of the screen
 function setInicialTitle(){
     const infoImage = document.getElementById('infoImage');
     infoImage.innerHTML=`
@@ -202,33 +240,37 @@ function setInicialTitle(){
     document.getElementById('pokemonEvolution').innerHTML="";
 }
 
+
+/* Load all pokemons data (This load is necessary to use the searchbox)
+In case that the program wouldn't have the search box, we can get rid of this function */
+async function loadDataForSearch(){
+    await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=${limit}`)
+    .then((response) => response.json())
+    .then((data) =>{
+        const thisData=data.results;
+        pokemonsData=thisData
+        });
+}
+
+/* This function is triggered when the user enter text in the search-box and press enter */
 function searchPokemon(name){
+    let pokemonList = document.getElementById('pokemonList');
+    pokemonList.innerHTML="";
+    setInicialTitle();
     if (name==""){
-        let pokemonList = document.getElementById('pokemonList');
-        pokemonList.innerHTML="";
-        setInicialTitle();
         range=0;
         loading=false
         loadNext();
     }else{
-        fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154')
-        .then((response) => response.json())
-        .then((data) =>{
-            const results=data.results.filter(pokemon=> pokemon.name.includes(name));
-            //Clear the actual pokemon list
-            let pokemonList = document.getElementById('pokemonList');
-            pokemonList.innerHTML="";
-    
-            pokemonsData=results;
-            console.log(pokemonsData);
-            setInicialTitle();
-            printPokemons();
-            loading=true
-            });
+        const results=pokemonsData.filter(pokemon=> pokemon.name.includes(name));
+        //Clear the actual pokemon list
+        printPokemons(results);
+        loading=true;
     }
 }
 
 //Init program
+loadDataForSearch();
 loadNext();
 initScroll();
 setInicialTitle();
