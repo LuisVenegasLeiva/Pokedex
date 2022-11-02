@@ -95,7 +95,7 @@ async function fetchEvolutionChain(url,id){
     .then((data) => data.chain)
     .then((evolution) => {
         evolutions.push(evolution.species.name);
-        console.log(evolution);
+        //console.log(evolution);
         try{
             evolutions.push(evolution.evolves_to[0].species.name);
             evolutions.push(evolution.evolves_to[0].evolves_to[0].species.name);
@@ -135,10 +135,16 @@ async function printPokemons(){
 
             let row=document.createElement('li');
             row.addEventListener('click', () => loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types));
+            let id;
+            if (data.id<100){
+                id = String(data.id).padStart(3, '0');
+            }else{
+                id = data.id
+            }
             row.innerHTML=`                
                 <img class="pokemonIcon" src=${img}>
                 ${pokemon.name}
-                <p class="stickyNumber">#${data.id}</p>
+                <p class="stickyNumber">#${id}</p>
             `;
             pokemonList.append(row);
 
@@ -192,8 +198,34 @@ function setInicialTitle(){
     infoData.innerHTML=`
         <h1>Pokedex</h1>
         <h2>Luis Venegas</h2>
-
     `;
+    document.getElementById('pokemonEvolution').innerHTML="";
+}
+
+function searchPokemon(name){
+    if (name==""){
+        let pokemonList = document.getElementById('pokemonList');
+        pokemonList.innerHTML="";
+        setInicialTitle();
+        range=0;
+        loading=false
+        loadNext();
+    }else{
+        fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154')
+        .then((response) => response.json())
+        .then((data) =>{
+            const results=data.results.filter(pokemon=> pokemon.name.includes(name));
+            //Clear the actual pokemon list
+            let pokemonList = document.getElementById('pokemonList');
+            pokemonList.innerHTML="";
+    
+            pokemonsData=results;
+            console.log(pokemonsData);
+            setInicialTitle();
+            printPokemons();
+            loading=true
+            });
+    }
 }
 
 //Init program

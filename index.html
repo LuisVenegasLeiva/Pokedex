@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Website</title>
     <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   </head>
   <body>
     <main>
@@ -15,6 +16,10 @@
                 </ul>
             </div>
             <div class="pokemon">
+                <div class="searchBox">
+                    <i class="bi bi-search searchIcon" onclick="searchPokemon(document.getElementById('searchPokemon').value)"> </i>
+                    <input class="pokemonInput" id="searchPokemon" on onchange="searchPokemon(value)">
+                </div>
                 <div class="pokemonInfo" id="pokemonInfo">
                     <div class="infoImage" id="infoImage">
 

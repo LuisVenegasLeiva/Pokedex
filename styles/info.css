@@ -78,3 +78,30 @@
     color: red;
     font-size: 50px;
 }
+
+
+.searchIcon{
+    cursor:pointer;
+    font-size: 20px;
+    color: #6b0f0f;
+}
+
+
+.searchBox{
+    position: relative;
+    float: right;
+    margin: 10px 30px;
+    background-color: rgba(233, 126, 158, 0.219);
+    border-radius: 5px;
+    width: auto;
+    padding: 4px;
+}
+
+.pokemonInput{
+    margin-left: 15px;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+}
+
+.pokemonInput:focus {outline:none!important;}
