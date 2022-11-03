@@ -20,12 +20,14 @@ async function loadPokemonEvolution(evolutions){
     const pokemonEvolution = document.getElementById('pokemonEvolution');
 
     let evolutionsIds=[]
+    //This is not the best way, but if i use a loop, then i get promises, so this could be a temporal way.
     try{
         evolutionsIds.push(await getPokemonImage(evolutions[0][1]))
         evolutionsIds.push(await getPokemonImage(evolutions[1][1]))
         evolutionsIds.push(await getPokemonImage(evolutions[2][1]))
     }
     catch{
+        //Nothing happens
     }
 
     pokemonEvolution.innerHTML=`
@@ -51,8 +53,6 @@ async function loadPokemonEvolution(evolutions){
             </div>
             <span class="arrowImg">&#8594;</span>
             `)
-
-            
         }).join('')}
         </div>  
     `;
@@ -91,7 +91,7 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
             return (`<div class="type">${type.type.name}</div>`)
         }).join('')}
     `;
-    ///////////////////////////////////////////////////////////////////////////
+    //      div line        //
     const infoData = document.getElementById('infoData');
     infoData.innerHTML=`
         <h3>Information </h3>
@@ -135,7 +135,6 @@ async function fetchEvolutionChain(url,id){
             //Nothing happens
         }
     })
-    /* Aqui se debe solucionar */
     loadPokemonEvolution(evolutions);
 }
 
@@ -145,7 +144,6 @@ async function getEvolutionChain(id){
         .then((response) => response.json())
         .then((data) => data.evolution_chain.url)
         .then((url) => fetchEvolutionChain(url,id))
-
 }
 
 //Add the new pokemons to the list
@@ -178,7 +176,6 @@ async function printPokemons(list){
                 <p class="stickyNumber">#${id}</p>
             `;
             pokemonList.append(row);
-
         });
     })   
 }
@@ -206,7 +203,6 @@ async function loadNext(){
 /* All the infinite scroll code */
 let loading=false;
 let pokemonList = document.getElementById('list');
-
 //Add the action listener and allows the user to load more pokemon each 0.5 seconds to have a better control of the new fetchs.
 function initScroll(){
     pokemonList.addEventListener('scroll',()=>{
@@ -222,7 +218,7 @@ function initScroll(){
 })
 }
 
-//Clear actual pokemon information of the screen
+//Clean selected pokemon info
 function setInicialTitle(){
     const infoImage = document.getElementById('infoImage');
     infoImage.innerHTML=`
@@ -271,7 +267,7 @@ function searchPokemon(name){
 
 //Init program
 loadDataForSearch();
-loadNext();
-initScroll();
-setInicialTitle();
+loadNext();         //Load first n pokemons
+initScroll();       //Allows Infinite Scrolling
+setInicialTitle();  //Put some elements in initial screen
  
