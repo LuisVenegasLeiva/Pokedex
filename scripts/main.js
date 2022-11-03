@@ -119,8 +119,7 @@ async function loadPokemonData(id,name,img,height,weight,species,abilities,types
 }
 
 //Gets the pokemons of the evolution chain
-async function fetchEvolutionChain(url,id){
-    console.log(url);
+async function fetchEvolutionChain(url){
     let evolutions=[]
     await fetch(url)
     .then((response) => response.json())
@@ -143,7 +142,7 @@ async function getEvolutionChain(id){
     await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
         .then((response) => response.json())
         .then((data) => data.evolution_chain.url)
-        .then((url) => fetchEvolutionChain(url,id))
+        .then((url) => fetchEvolutionChain(url))
 }
 
 //Add the new pokemons to the list
@@ -163,13 +162,14 @@ async function printPokemons(list){
             let types=data.types;
 
             let row=document.createElement('li');
-            row.addEventListener('click', () => loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types));
+            row.addEventListener('click', () => {selectItem(data.id); loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types)});
             let id;
             if (data.id<100){
                 id = String(data.id).padStart(3, '0');
             }else{
-                id = data.id
+                id = String(data.id)
             }
+            row.setAttribute("id",'pokemon'+parseInt(id));
             row.innerHTML=`                
                 <img class="pokemonIcon" src=${img}>
                 <h3 class="pokemonName">${pokemon.name}</h3>

@@ -30,18 +30,14 @@ li:before {
 }
   
 li:hover {  
-    background-color: #8d1919;
+    background-color: #913131;
 }
   
-li:active {
-    background: #5f1212;
+.active {
+    background: #8d1919;
     box-shadow: inset 0 1px 1px #666;
 }
 
-li:focus {
-    background: #3b1677;
-    box-shadow: inset 0 1px 1px #666;
-}
 
 .container .list {
     border: 3px solid rgb(170, 134, 134);

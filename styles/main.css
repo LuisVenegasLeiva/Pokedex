@@ -15,7 +15,8 @@ html {
 
 /* Container props */
 .container {
-  max-height: 100vh;
+  height: 100vh;
+  min-height: 920px;
   background-color: rgb(211, 64, 64);
   padding: 25px;
   display: flex;
