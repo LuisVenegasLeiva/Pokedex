@@ -4,6 +4,7 @@ html {
   height: 100%;
   box-sizing: border-box;
   font-size: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 *,
@@ -12,18 +13,9 @@ html {
   box-sizing: inherit;
 }
 
-body,
-
-h1,
-h2,
-h3,
-h4,
-h5{
-}
-
 /* Container props */
-.container{
-  max-height: 960px;
+.container {
+  max-height: 100vh;
   background-color: rgb(211, 64, 64);
   padding: 25px;
   display: flex;
@@ -40,13 +32,13 @@ h5{
   border-radius: 50px;
 }
 
-/* Track */
+/* Scrollbar Track */
 .list::-webkit-scrollbar-track {
   background: rgb(133, 43, 43);
   border-radius: 50px;
 }
 
-/* Handle */
+/* Scrollbar Handle */
 .list::-webkit-scrollbar-thumb {
   background: rgb(211, 64, 64);
   border-radius: 50px;

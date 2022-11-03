@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Website</title>
+    <title>Luis Venegas's pokédex</title>
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   </head>
@@ -17,7 +17,7 @@
             </div>
             <div class="pokemon">
                 <div class="searchBox">
-                    <i class="bi bi-search searchIcon" onclick="searchPokemon(document.getElementById('searchPokemon').value)"> </i>
+                    <i class="bi bi-search searchIcon" onclick=showInput()> </i>
                     <input class="pokemonInput" id="searchPokemon" on onchange="searchPokemon(value)">
                 </div>
                 <div class="pokemonInfo" id="pokemonInfo">
@@ -36,5 +36,6 @@
         </div>
     </main>
     <script type="text/javascript" src="./scripts/main.js"></script>
+    <script type="text/javascript" src="./scripts/utils.js"></script>
   </body>
 </html>

@@ -1,6 +1,5 @@
-let pokemonsData={}
-let pokemonsSearch={}
-let pokemonImgs={}
+let pokemonsData={}   //Pokemon data for display in list or search
+let pokemonsSearch={} //Results of pokemon search
 
 //Function used to get images individualy to avoid unnecesary loads in pokemon chain evolution
 async function getPokemonImage(url){
@@ -39,14 +38,14 @@ async function loadPokemonEvolution(evolutions){
             if (index==evolutions.length-1){
                 //console.log(pokemon);
                 return (`
-                <div class="pokemon">
+                <div class="pokemonEv">
                     <img class="pokemonIconEv" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolutionsIds[index]}.png" >
                     <h3>${pokemon[0]}</h3>
                 </div>
                 `)
             }
             return (`
-            <div class="pokemon">
+            <div class="pokemonEv">
                 <img class="pokemonIconEv" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolutionsIds[index]}.png" >
                 <h3>${pokemon[0]}</h3>
             </div>
@@ -165,8 +164,6 @@ async function printPokemons(list){
             let imgDefault=data.sprites.other["official-artwork"].front_default;
             let types=data.types;
 
-            pokemonImgs[pokemon.name]=imgDefault;
-
             let row=document.createElement('li');
             row.addEventListener('click', () => loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types));
             let id;
@@ -177,7 +174,7 @@ async function printPokemons(list){
             }
             row.innerHTML=`                
                 <img class="pokemonIcon" src=${img}>
-                ${pokemon.name}
+                <h3 class="pokemonName">${pokemon.name}</h3>
                 <p class="stickyNumber">#${id}</p>
             `;
             pokemonList.append(row);
@@ -234,7 +231,7 @@ function setInicialTitle(){
 
     const infoData = document.getElementById('infoData');
     infoData.innerHTML=`
-        <h1>Pokedex</h1>
+        <h1>Pokédex</h1>
         <h2>Luis Venegas</h2>
     `;
     document.getElementById('pokemonEvolution').innerHTML="";
@@ -254,11 +251,14 @@ async function loadDataForSearch(){
 
 /* This function is triggered when the user enter text in the search-box and press enter */
 function searchPokemon(name){
+    name=name.toLowerCase();
     let pokemonList = document.getElementById('pokemonList');
     pokemonList.innerHTML="";
     setInicialTitle();
     if (name==""){
-        range=0;
+        let input=document.getElementById("searchPokemon");
+        input.style.display="none";
+        urlData= `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20`
         loading=false
         loadNext();
     }else{
