@@ -149,6 +149,7 @@ async function getEvolutionChain(id){
 let pokemonList = document.getElementById('pokemonList');
 async function printPokemons(list){
     list.map((pokemon,index) => {
+        //This timeout is made to avoid pokemon order bug because one fetch ends later than when it should
         setTimeout(() => {
             appendPokemon(pokemon);
         }, 20*index);
