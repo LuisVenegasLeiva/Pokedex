@@ -16,7 +16,7 @@ function quitActiveClass(){
     try{
         let item=document.getElementById('pokemon'+selected);
         item.classList.remove("active");
-    }catch{
+    }catch(e){
         //None item selected
     }
 }

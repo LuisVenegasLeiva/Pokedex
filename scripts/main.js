@@ -1,5 +1,5 @@
-let pokemonsData={}   //Pokemon data for display in list or search
-let pokemonsSearch={} //Results of pokemon search
+let pokemonsData={};   //Pokemon data for display in list or search
+let pokemonsSearch={}; //Results of pokemon search
 
 //Function used to get images individualy to avoid unnecesary loads in pokemon chain evolution
 async function getPokemonImage(url){
