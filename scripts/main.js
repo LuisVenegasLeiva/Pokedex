@@ -265,9 +265,12 @@ function searchPokemon(name){
     }
 }
 
+async function init(){
+    await loadDataForSearch();
+    await loadNext();         //Load first n pokemons
+    initScroll();       //Allows Infinite Scrolling
+    setInicialTitle();  //Put some elements in initial screen
+}
+
 //Init program
-loadDataForSearch();
-loadNext();         //Load first n pokemons
-initScroll();       //Allows Infinite Scrolling
-setInicialTitle();  //Put some elements in initial screen
- 
+ init();
