@@ -146,10 +146,9 @@ async function getEvolutionChain(id){
 }
 
 //Add the new pokemons to the list
+let pokemonList = document.getElementById('pokemonList');
 async function printPokemons(list){
-    let pokemonList = document.getElementById('pokemonList');
-
-    await list.map(pokemon => {
+    list.map(async pokemon => {
         fetch(pokemon.url)
         .then((response) => response.json())
         .then((data) => {
@@ -175,6 +174,7 @@ async function printPokemons(list){
                 <h3 class="pokemonName">${pokemon.name}</h3>
                 <p class="stickyNumber">#${id}</p>
             `;
+            //console.log(data);
             pokemonList.append(row);
         });
     })   
@@ -202,12 +202,12 @@ async function loadNext(){
 
 /* All the infinite scroll code */
 let loading=false;
-let pokemonList = document.getElementById('list');
 //Add the action listener and allows the user to load more pokemon each 0.5 seconds to have a better control of the new fetchs.
 function initScroll(){
-    pokemonList.addEventListener('scroll',()=>{
+    let listScroll = document.getElementById('list');
+    listScroll.addEventListener('scroll',()=>{
     if (loading==false){
-        if (pokemonList.scrollTop > pokemonList.scrollHeight-1000 ){
+        if (listScroll.scrollTop > listScroll.scrollHeight-1000 ){
             loading=true;
             setTimeout(() => {
                 loadNext();
@@ -267,9 +267,9 @@ function searchPokemon(name){
 
 async function init(){
     await loadDataForSearch();
-    await loadNext();         //Load first n pokemons
     initScroll();       //Allows Infinite Scrolling
     setInicialTitle();  //Put some elements in initial screen
+    loadNext();   //Load first n pokemons
 }
 
 //Init program
