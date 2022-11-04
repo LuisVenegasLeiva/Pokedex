@@ -148,35 +148,42 @@ async function getEvolutionChain(id){
 //Add the new pokemons to the list
 let pokemonList = document.getElementById('pokemonList');
 async function printPokemons(list){
-    list.map(async pokemon => {
-        fetch(pokemon.url)
-        .then((response) => response.json())
-        .then((data) => {
-            let img=data.sprites.front_default;
-            let height=data.height;
-            let weight=data.weight;
-            let species=data.species.name;
-            let abilities=data.abilities
-            let imgDefault=data.sprites.other["official-artwork"].front_default;
-            let types=data.types;
-
-            let row=document.createElement('li');
-            row.addEventListener('click', () => {selectItem(data.id); loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types)});
-            let id;
-            if (data.id<100){
-                id = String(data.id).padStart(3, '0');
-            }else{
-                id = String(data.id)
-            }
-            row.setAttribute("id",'pokemon'+parseInt(id));
-            row.innerHTML=`                
-                <img class="pokemonIcon" src=${img}>
-                <h3 class="pokemonName">${pokemon.name}</h3>
-                <p class="stickyNumber">#${id}</p>
-            `;
-            pokemonList.append(row);
-        });
+    list.map((pokemon,index) => {
+        setTimeout(() => {
+            appendPokemon(pokemon);
+        }, 20*index);
     })   
+}
+
+
+async function appendPokemon(pokemon){
+    fetch(pokemon.url)
+    .then((response) => response.json())
+    .then((data) => {
+        let img=data.sprites.front_default;
+        let height=data.height;
+        let weight=data.weight;
+        let species=data.species.name;
+        let abilities=data.abilities
+        let imgDefault=data.sprites.other["official-artwork"].front_default;
+        let types=data.types;
+
+        let row=document.createElement('li');
+        row.addEventListener('click', () => {selectItem(data.id); loadPokemonData(data.id,pokemon.name,imgDefault,height,weight,species,abilities,types)});
+        let id;
+        if (data.id<100){
+            id = String(data.id).padStart(3, '0');
+        }else{
+            id = String(data.id)
+        }
+        row.setAttribute("id",'pokemon'+parseInt(id));
+        row.innerHTML=`                
+            <img class="pokemonIcon" src=${img}>
+            <h3 class="pokemonName">${pokemon.name}</h3>
+            <p class="stickyNumber">#${id}</p>
+        `;
+        pokemonList.append(row);
+    });    
 }
 
 //Fetch all the pokemon data from the url
