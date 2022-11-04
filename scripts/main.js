@@ -174,7 +174,6 @@ async function printPokemons(list){
                 <h3 class="pokemonName">${pokemon.name}</h3>
                 <p class="stickyNumber">#${id}</p>
             `;
-            //console.log(data);
             pokemonList.append(row);
         });
     })   
@@ -266,11 +265,11 @@ function searchPokemon(name){
 }
 
 async function init(){
-    await loadDataForSearch();
     initScroll();       //Allows Infinite Scrolling
     setInicialTitle();  //Put some elements in initial screen
     loadNext();   //Load first n pokemons
+    await loadDataForSearch();
 }
 
 //Init program
- init();
+init();
